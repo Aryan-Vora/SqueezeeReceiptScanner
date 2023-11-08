@@ -1,0 +1,30 @@
+.recognized-table {
+  border-collapse: collapse;
+  width: 80vw;
+  margin-top: 20px;
+}
+
+.recognized-table th,
+.recognized-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+.value {
+  word-break: break-word;
+}
+/* Define styles for list items within table cells */
+.recognized-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.recognized-list li {
+  margin-bottom: 4px;
+}
+
+@media only screen and (min-width: 500px) {
+  .recognized-table {
+    width: 500px;
+  }
+}
