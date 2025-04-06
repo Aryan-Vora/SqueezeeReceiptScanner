@@ -14,7 +14,6 @@ const commonRequestCORS = function (request, response) {
     "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
   );
 
-  // PING
   if (request.method === "OPTIONS") {
     response.send({ status: "OK" });
     return true;
@@ -29,8 +28,8 @@ exports.extractFromImage = onRequest(async (request, response) => {
   let result = { valid: false, ocr: "" }; // Default response
   let errorMessages = [];
 
+  // Check the keys
   try {
-    // Check OCR Space Key
     ocrSpaceKey = await getOCRSPACEKey();
     if (!ocrSpaceKey) throw new Error("Missing OCR Space key");
   } catch (error) {
@@ -39,7 +38,6 @@ exports.extractFromImage = onRequest(async (request, response) => {
   }
 
   try {
-    // Check OpenAI Key
     OPENAIKey = await getOPENAIKey();
     if (!OPENAIKey) throw new Error("Missing OpenAI key");
   } catch (error) {
@@ -61,14 +59,16 @@ exports.extractFromImage = onRequest(async (request, response) => {
     });
 
     const res = ocrResult["ParsedResults"][0]["ParsedText"];
-    result.ocr = res; // Assigning the OCR response to result
+    result.ocr = res;
 
     if (!res || res === "") {
       throw new Error("OCR returned empty result");
     }
 
+    // This approach won't age well - there is a possibility if a user tries to do a prompt injection through the receipt then it could cause 
+    // invalid information from being inputted into the bucket. It shouldn't be a big issue though since it would only harm their own recommendations.
+    // To solve this I need some sort of guardrail in the next version (I also would need to add a (very robust) validation for the data returned from OpenAI)
     const openai = new OpenAI({ apiKey: OPENAIKey });
-    // ... Rest of your code to build the prompt ...
     const promptIntroduction =
       'You are a receipt scanner. Your task is to process the following receipt, which may have OCR errors such as missing decimal points, misinterpretation of characters, and missing information, and output specific information in a JSON dictionary format. The information to extract is: retailer, date, merchantInfo, items (even if there\'s only one item, it should be in a list of dictionaries with {"name": "Item name here", "count": count here, "price": price here}), subtotal, tax, discount, total, paymentMethod, and valid.\n\nPlease follow these guidelines:\n\n';
     const promptInstructionsList = [
@@ -94,7 +94,7 @@ exports.extractFromImage = onRequest(async (request, response) => {
     });
 
     const aiResponse = JSON.parse(chatCompletion.choices[0].message.content);
-    result = { ...result, ...aiResponse }; // Merging the OCR result and AI response
+    result = { ...result, ...aiResponse };
   } catch (error) {
     console.error("Error in extractFromImage:", error.message);
   } finally {

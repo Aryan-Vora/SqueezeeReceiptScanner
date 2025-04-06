@@ -5,12 +5,11 @@ function Error() {
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
   useEffect(() => {
-    // Simulate an error and display the error message
     setIsErrorVisible(true);
 
     setTimeout(() => {
       setIsErrorVisible(false);
-    }, 3000); // Hide the message after 3 seconds
+    }, 3000); 
   }, []);
 
   return (

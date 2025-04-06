@@ -1,6 +1,6 @@
 import LoadingDots from "./LoadingDots";
 import "./ReceiptModal.css";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 const ReceiptModal = ({
   isOpen,
   onClose,
@@ -32,12 +32,12 @@ const ReceiptModal = ({
     </div>
   ) : null;
 };
-// Define PropTypes for the ReceiptModal component
+
 ReceiptModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired, // isOpen should be a boolean and is required
-  onClose: PropTypes.func.isRequired, // onClose should be a function and is required
-  selectedImage: PropTypes.object, // selectedImage should be an object
-  uploadSelectedImage: PropTypes.func.isRequired, // uploadSelectedImage should be a function and is required
-  loading: PropTypes.bool.isRequired, // loading should be a boolean and is required
+  isOpen: PropTypes.bool.isRequired, 
+  onClose: PropTypes.func.isRequired, 
+  selectedImage: PropTypes.object, 
+  uploadSelectedImage: PropTypes.func.isRequired, 
+  loading: PropTypes.bool.isRequired,
 };
 export default ReceiptModal;

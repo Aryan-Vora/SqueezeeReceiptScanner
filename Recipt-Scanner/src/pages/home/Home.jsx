@@ -54,6 +54,8 @@ function Home() {
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  // Goated function
   const compressImage = (imageFile, maxSizeInBytes, quality) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -103,7 +105,7 @@ function Home() {
   const handleFileInputChange = (event) => {
     const selectedFile = event.target.files[0];
     setSelectedImage(selectedFile);
-    setRecognizedText(""); // Clear the recognized text when a new image is selected
+    setRecognizedText("");
 
     if (selectedFile) {
       console.log("Selected file:", selectedFile);
@@ -117,13 +119,13 @@ function Home() {
    * @returns {Promise} A promise that resolves when the upload is complete.
    */
   async function uploadJsonData(name, text, imageRef) {
-    // Convert JSON to a string
     text.imageURL = imageRef;
     const jsonString = JSON.stringify(text);
     const jsonBlob = new Blob([jsonString], { type: "application/json" });
     const jsonRef = ref(storage, `reciptdata/${name}/data.json`);
     await uploadBytes(jsonRef, jsonBlob);
   }
+
   /*
    * Uploads the selected image to Firebase and performs OCR on it.
    */

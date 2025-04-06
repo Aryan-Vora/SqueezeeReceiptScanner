@@ -42,5 +42,5 @@ export default function ReceiptInformationTable(text) {
   );
 }
 ReceiptInformationTable.propTypes = {
-  text: PropTypes.object.isRequired, // Adjust the prop type as needed
+  text: PropTypes.object.isRequired,
 };
